@@ -1,0 +1,93 @@
+﻿<!-- main/templates/main/about.html -->
+{% extends 'main/base.html' %}
+
+{% block title %}About Us - Pawsy Animal Shelter{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>About Pawsy Animal Shelter</h1>
+        <p class="lead">We are dedicated to finding loving homes for animals in need.</p>
+
+        <h3>Our Mission</h3>
+        <p>At Pawsy Animal Shelter, our mission is to provide care and shelter for abandoned, abused, or surrendered animals, and to find them permanent, loving homes. We are committed to promoting responsible pet ownership through education and community outreach.</p>
+
+        <h3>Our History</h3>
+        <p>Founded in 2025, Pawsy Animal Shelter began as a small rescue operation run by a group of passionate animal lovers. Over the years, we have grown into a full-service shelter, helping hundreds of animals find their forever homes each year.</p>
+
+        <h3>Our Team</h3>
+        <div class="row mt-4">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{% static 'images/team-1.jpg' %}" class="card-img-top" alt="Team Member">
+                    <div class="card-body">
+                        <h5 class="card-title">Jane Smith</h5>
+                        <p class="card-text">Shelter Director</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{% static 'images/team-2.jpg' %}" class="card-img-top" alt="Team Member">
+                    <div class="card-body">
+                        <h5 class="card-title">John Doe</h5>
+                        <p class="card-text">Veterinarian</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{% static 'images/team-3.jpg' %}" class="card-img-top" alt="Team Member">
+                    <div class="card-body">
+                        <h5 class="card-title">Sarah Johnson</h5>
+                        <p class="card-text">Adoption Coordinator</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Shelter Information</h4>
+            </div>
+            <div class="card-body">
+                <h5>Hours of Operation</h5>
+                <ul class="list-unstyled">
+                    <li>Monday - Friday: 10:00 AM - 6:00 PM</li>
+                    <li>Saturday: 10:00 AM - 5:00 PM</li>
+                    <li>Sunday: 12:00 PM - 4:00 PM</li>
+                </ul>
+
+                <h5>Location</h5>
+                <address>
+                    123 Shelter Lane<br>
+                    Petsville, PA 12345<br>
+                    <a href="tel:+1234567890">Phone: (123) 456-7890</a><br>
+                    <a href="mailto:info@pawsy.com">Email: info@pawsy.com</a>
+                </address>
+
+                <div class="mt-3">
+                    <a href="{% url 'contact' %}" class="btn btn-primary">Contact Us</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Get Involved</h4>
+            </div>
+            <div class="card-body">
+                <p>There are many ways you can help our shelter animals:</p>
+                <ul>
+                    <li><a href="{% url 'donate' %}">Make a donation</a></li>
+                    <li><a href="{% url 'volunteer' %}">Volunteer your time</a></li>
+                    <li><a href="{% url 'foster' %}">Become a foster parent</a></li>
+                    <li><a href="{% url 'events' %}">Attend our events</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -33,7 +33,7 @@ class Color(models.Model):
         return self.name
 
 class Wool(models.Model):
-    name = models.CharField(max_length=1, choices=WoolChoice.choices,
+    name = models.CharField(max_length=9, choices=WoolChoice.choices,
                             default=WoolChoice.SHORT)
 
     def __str__(self):
@@ -46,7 +46,7 @@ class Size(models.Model):
         return self.name
 
 class Status(models.Model):
-    name = models.CharField(max_length=1,choices=AnimalStatusChoice.choice,
+    name = models.CharField(max_length=18,choices=AnimalStatusChoice.choices,
                             default=AnimalStatusChoice.LOOKING_FOR_HOME)
 
     def __str__(self):
@@ -62,7 +62,7 @@ class AnimalBreed(models.Model):
 
     class Meta:
         ordering = ['name']
-        indexes = [models.Index(fields='name')]
+        indexes = [models.Index(fields=['name'])]
         verbose_name = 'animal_breed'
         verbose_name_plural = 'animal_breeds'
 

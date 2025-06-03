@@ -1,0 +1,77 @@
+﻿<!-- main/templates/main/home.html -->
+{% extends 'main/base.html' %}
+
+{% block title %}Home - Pawsy Animal Shelter{% endblock %}
+
+{% block content %}
+<div class="jumbotron bg-light p-5 rounded">
+    <h1 class="display-4">Welcome to Pawsy Animal Shelter</h1>
+    <p class="lead">We help animals find their forever homes. Browse our available pets and find your new best friend!</p>
+    <hr class="my-4">
+    <p>We have dogs, cats, and other animals waiting for a loving family.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'animal_list' %}" role="button">Meet Our Animals</a>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <i class="bi bi-heart-fill text-danger fs-1"></i>
+                <h3 class="card-title mt-3">Adopt</h3>
+                <p class="card-text">Find your perfect companion from our selection of loving animals.</p>
+                <a href="{% url 'animal_list' %}" class="btn btn-outline-primary">Browse Animals</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <i class="bi bi-gift-fill text-success fs-1"></i>
+                <h3 class="card-title mt-3">Donate</h3>
+                <p class="card-text">Support our mission by donating supplies, funds, or your time.</p>
+                <a href="{% url 'donate' %}" class="btn btn-outline-primary">Learn More</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <i class="bi bi-people-fill text-info fs-1"></i>
+                <h3 class="card-title mt-3">Volunteer</h3>
+                <p class="card-text">Join our team of dedicated volunteers and make a difference.</p>
+                <a href="{% url 'volunteer' %}" class="btn btn-outline-primary">Get Involved</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <h2 class="text-center mb-4">Featured Animals</h2>
+    </div>
+    {% for animal in featured_animals %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            {% if animal.photo %}
+            <img src="{{ animal.photo.url }}" class="card-img-top" alt="{{ animal.name }}">
+            {% else %}
+            <img src="{% static 'images/no-image.jpg' %}" class="card-img-top" alt="No image available">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ animal.name }}</h5>
+                <p class="card-text">
+                    <strong>Breed:</strong> {{ animal.breed }}<br>
+                    <strong>Age:</strong> {{ animal.age }} years<br>
+                    <strong>Gender:</strong> {{ animal.gender }}
+                </p>
+                <a href="{% url 'animal_detail' animal.slug %}" class="btn btn-primary">Meet {{ animal.name }}</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+        <p>No featured animals at the moment. Check back soon!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

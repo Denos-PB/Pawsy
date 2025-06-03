@@ -1,0 +1,90 @@
+﻿<!-- main/templates/main/animal_detail.html -->
+{% extends 'main/base.html' %}
+
+{% block title %}{{ animal.name }} - Pawsy Animal Shelter{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            {% if animal.photo %}
+            <img src="{{ animal.photo.url }}" class="card-img-top" alt="{{ animal.name }}">
+            {% else %}
+            <img src="{% static 'images/no-image.jpg' %}" class="card-img-top" alt="No image available">
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h1>{{ animal.name }}</h1>
+        <div class="badge bg-primary mb-2">{{ animal.get_status_display }}</div>
+
+        <table class="table">
+            <tr>
+                <th>Breed:</th>
+                <td>{{ animal.breed }}</td>
+            </tr>
+            <tr>
+                <th>Age:</th>
+                <td>{{ animal.age }} years</td>
+            </tr>
+            <tr>
+                <th>Gender:</th>
+                <td>{{ animal.get_gender_display }}</td>
+            </tr>
+            <tr>
+                <th>Size:</th>
+                <td>{{ animal.size }}</td>
+            </tr>
+            <tr>
+                <th>Coat:</th>
+                <td>{{ animal.get_wool_display }}</td>
+            </tr>
+            <tr>
+                <th>Color:</th>
+                <td>
+                    {% for color in animal.color.all %}
+                        {{ color.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>At shelter since:</th>
+                <td>{{ animal.data_arrived|date:"F d, Y" }}</td>
+            </tr>
+        </table>
+
+        <h3>About {{ animal.name }}</h3>
+        <p>{{ animal.description|linebreaks }}</p>
+
+        <div class="d-grid gap-2">
+            <a href="{% url 'adoption_form' animal.slug %}" class="btn btn-success btn-lg">Adopt {{ animal.name }}</a>
+            <a href="{% url 'contact' %}?subject=Question about {{ animal.name }}" class="btn btn-outline-primary">Ask about {{ animal.name }}</a>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h3>You might also like</h3>
+    </div>
+    {% for similar_animal in similar_animals %}
+    <div class="col-md-3 mb-4">
+        <div class="card h-100">
+            {% if similar_animal.photo %}
+            <img src="{{ similar_animal.photo.url }}" class="card-img-top" alt="{{ similar_animal.name }}">
+            {% else %}
+            <img src="{% static 'images/no-image.jpg' %}" class="card-img-top" alt="No image available">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ similar_animal.name }}</h5>
+                <p class="card-text">
+                    <strong>Breed:</strong> {{ similar_animal.breed }}<br>
+                    <strong>Age:</strong> {{ similar_animal.age }} years
+                </p>
+                <a href="{% url 'animal_detail' similar_animal.slug %}" class="btn btn-primary">Meet {{ similar_animal.name }}</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
