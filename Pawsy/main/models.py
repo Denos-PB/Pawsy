@@ -6,11 +6,13 @@ class AnimalGenderChoice(models.TextChoices):
     MALE = 'M','Male'
     FEMALE = 'F','Female'
 
+
 class WoolChoice(models.TextChoices):
      SHORT = 'S' 'Short'
      LONG = 'L' 'Long'
      CURLY = 'C' 'Curly'
      HAIRLESS = 'H' 'Hairless'
+
 
 class AnimalStatusChoice(models.TextChoices):
     LOOKING_FOR_HOME = 'L' 'Looking for home'
@@ -32,6 +34,7 @@ class Color(models.Model):
     def __str__(self):
         return self.name
 
+
 class Wool(models.Model):
     name = models.CharField(max_length=9, choices=WoolChoice.choices,
                             default=WoolChoice.SHORT)
@@ -39,11 +42,13 @@ class Wool(models.Model):
     def __str__(self):
         return self.name
 
+
 class Size(models.Model):
     name = models.CharField(max_length=250)
 
     def __str__(self):
         return self.name
+
 
 class Status(models.Model):
     name = models.CharField(max_length=18,choices=AnimalStatusChoice.choices,
@@ -86,6 +91,10 @@ class Animal(models.Model):
     description = models.TextField(blank=True)
     photo = models.ImageField(upload_to='animals/',blank=True,null=True)
     data_arrived = models.DateField(auto_now_add=True)
+    sterilized = models.BooleanField(default=True, verbose_name='sterilized')
+    vaccinated = models.BooleanField(default=True,verbose_name='vaccinated')
+    special_needs = models.TextField(blank=True,verbose_name='special needs')
+    location = models.CharField(max_length=200,blank=True,verbose_name='location')
 
     def __str__(self):
         return self.name
@@ -94,3 +103,13 @@ class Animal(models.Model):
         ordering = ['-data_arrived']
         verbose_name ='animal'
         indexes = [models.Index(fields = ['name'])]
+
+class AdoptionRequest(models.Model):
+    animal = models.ForeignKey(Animal,on_delete=models.CASCADE,
+                               related_name='adoption_request')
+    name = models.CharField(max_length=100,verbose_name='name')
+    phone = models.CharField(max_length=30,verbose_name='phone')
+    email = models.EmailField()
+    message = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, default='new')
