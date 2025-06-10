@@ -1,0 +1,14 @@
+﻿{% extends "admin/base.html" %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p>Введите новую локацию:</p>
+    <input type="text" name="location">
+    {% for animal in animals %}
+    <input type="hidden" name="_selected_action" value="{{ animal.pk }}">
+    {% endfor %}
+    <input type="hidden" name="action" value="set_location">
+    <input type="submit" value="Применить">
+</form>
+{% endblock %}

@@ -91,8 +91,8 @@ class Animal(models.Model):
     description = models.TextField(blank=True)
     photo = models.ImageField(upload_to='animals/',blank=True,null=True)
     data_arrived = models.DateField(auto_now_add=True)
-    sterilized = models.BooleanField(default=True, verbose_name='sterilized')
-    vaccinated = models.BooleanField(default=True,verbose_name='vaccinated')
+    sterilized = models.BooleanField(default=False, verbose_name='sterilized')
+    vaccinated = models.BooleanField(default=False,verbose_name='vaccinated')
     special_needs = models.TextField(blank=True,verbose_name='special needs')
     location = models.CharField(max_length=200,blank=True,verbose_name='location')
 
