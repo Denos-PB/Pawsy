@@ -8,16 +8,16 @@ class AnimalGenderChoice(models.TextChoices):
 
 
 class WoolChoice(models.TextChoices):
-     SHORT = 'S' 'Short'
-     LONG = 'L' 'Long'
-     CURLY = 'C' 'Curly'
-     HAIRLESS = 'H' 'Hairless'
+     SHORT = 'S', 'Short'
+     LONG = 'L', 'Long'
+     CURLY = 'C', 'Curly'
+     HAIRLESS = 'H', 'Hairless'
 
 
 class AnimalStatusChoice(models.TextChoices):
-    LOOKING_FOR_HOME = 'L' 'Looking for home'
-    NEED_SPECIAL_CARE = 'S' 'Need special care'
-    FOUND_HOME = 'H' 'Found home'
+    LOOKING_FOR_HOME = 'L', 'Looking for home'
+    NEED_SPECIAL_CARE = 'S', 'Need special care'
+    FOUND_HOME = 'H', 'Found home'
 
 
 class Gender(models.Model):
@@ -75,7 +75,7 @@ class AnimalBreed(models.Model):
 class Animal(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
-    age = models.IntegerField(max_length=30)
+    age = models.IntegerField()
     size = models.ForeignKey(Size,on_delete=models.SET_NULL,verbose_name='animal size',
                                   related_name='animal_size',null=True)
     gender = models.ForeignKey(Gender,on_delete=models.SET_NULL, verbose_name='animal gender',

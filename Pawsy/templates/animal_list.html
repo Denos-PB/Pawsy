@@ -1,0 +1,35 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Available Animals - Pawsy Animal Shelter{% endblock %}
+
+{% block content %}
+<h2>Available Animals</h2>
+
+<div class="card">
+    <p>Welcome to Pawsy Animal Shelter! We have many loving animals looking for their forever homes. Browse our available animals below.</p>
+</div>
+
+<div class="animal-grid">
+    {% for animal in animals %}
+    <div class="animal-card">
+        {% if animal.photo %}
+        <img src="{{ animal.photo.url }}" alt="{{ animal.name }}">
+        {% else %}
+        <img src="https://placehold.co/400x300?text=No+Photo" alt="No photo available">
+        {% endif %}
+        <div class="content">
+            <h3>{{ animal.name }}</h3>
+            <p><strong>Age:</strong> {{ animal.age }} years</p>
+            <p><strong>Breed:</strong> {{ animal.breed.name }}</p>
+            <p><strong>Gender:</strong> {{ animal.gender.get_name_display }}</p>
+            <p><strong>Status:</strong> {{ animal.status.get_name_display }}</p>
+            <a href="{% url 'animal_detail' animal.id %}" class="btn">View Details</a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="card">
+        <p>No animals available at the moment. Please check back later!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

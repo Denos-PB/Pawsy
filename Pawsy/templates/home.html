@@ -1,0 +1,53 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Welcome to Pawsy Animal Shelter{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Welcome to Pawsy Animal Shelter</h2>
+    <p>We are dedicated to finding loving homes for animals in need. Our shelter provides care, medical attention, and love to animals until they find their forever homes.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+    <div class="card">
+        <h3>Adopt a Pet</h3>
+        <p>Looking for a new furry friend? We have many loving animals waiting for their forever homes.</p>
+        <a href="{% url 'animal_list' %}" class="btn">Browse Available Animals</a>
+    </div>
+    
+    <div class="card">
+        <h3>Volunteer</h3>
+        <p>Help make a difference in the lives of animals. Volunteer your time and skills at our shelter.</p>
+        <a href="#" class="btn">Learn More</a>
+    </div>
+    
+    <div class="card">
+        <h3>Donate</h3>
+        <p>Your donations help us provide food, shelter, and medical care to animals in need.</p>
+        <a href="#" class="btn">Make a Donation</a>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Featured Animals</h3>
+    <div class="animal-grid">
+        {% for animal in featured_animals %}
+        <div class="animal-card">
+            {% if animal.photo %}
+            <img src="{{ animal.photo.url }}" alt="{{ animal.name }}">
+            {% else %}
+            <img src="https://placehold.co/400x300?text=No+Photo" alt="No photo available">
+            {% endif %}
+            <div class="content">
+                <h3>{{ animal.name }}</h3>
+                <p><strong>Age:</strong> {{ animal.age }} years</p>
+                <p><strong>Breed:</strong> {{ animal.breed.name }}</p>
+                <a href="{% url 'animal_detail' animal.id %}" class="btn">View Details</a>
+            </div>
+        </div>
+        {% empty %}
+        <p>No featured animals at the moment. Please check our <a href="{% url 'animal_list' %}">animals page</a> to see all available animals.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
