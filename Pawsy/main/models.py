@@ -113,3 +113,10 @@ class AdoptionRequest(models.Model):
     message = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, default='new')
+
+class Volunteer(models.Model):
+    name = models.CharField(max_length=255, verbose_name='name')
+    phone = models.CharField(max_length=30, verbose_name='phone')
+    email = models.EmailField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, default='new')
