@@ -1,35 +1,24 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Animal
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import *
+from .serializer import *
+from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework import mixins
 
-def home(request):
-    # Get a few featured animals (e.g., the 3 most recent ones)
-    featured_animals = Animal.objects.filter(status__name__contains='Looking').order_by('-data_arrived')[:3]
-    return render(request, 'home.html', {'featured_animals': featured_animals})
+class AnimalList(mixins.ListModelMixin,
+                 mixins.CreateModelMixin,
+                 mixins.UpdateModelMixin,
+                 generics.GenericAPIView):
+    queryset = Animal.objects.all()
+    serializer_class = AnimalSerializer
 
-def animal_list(request):
-    animals = Animal.objects.all()
-    return render(request, 'animal_list.html', {'animals': animals})
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
-def animal_detail(request, animal_id):
-    animal = get_object_or_404(Animal, id=animal_id)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
 
-        from .models import AdoptionRequest
-        adoption_request = AdoptionRequest(
-            animal=animal,
-            name=name,
-            email=email,
-            phone=phone,
-            message=message
-        )
-        adoption_request.save()
-
-        from django.contrib import messages
-        messages.success(request, f"Thank you for your interest in adopting {animal.name}! We'll contact you soon.")
-
-    return render(request, 'animal_detail.html', {'animal': animal})
+class AnimalDetail(gene)
