@@ -20,6 +20,13 @@ class AnimalStatusChoice(models.TextChoices):
     FOUND_HOME = 'H', 'Found home'
 
 
+class VolunteerStatusChoice(models.TextChoices):
+    NEW = 'new', 'New'
+    APPROVED = 'approved', 'Approved'
+    REJECTED = 'rejected', 'Rejected'
+    INACTIVE = 'inactive', 'Inactive'
+
+
 class Gender(models.Model):
     name = models.CharField(max_length=1, choices=AnimalGenderChoice.choices,
                             default=AnimalGenderChoice.MALE)
@@ -118,5 +125,14 @@ class Volunteer(models.Model):
     name = models.CharField(max_length=255, verbose_name='name')
     phone = models.CharField(max_length=30, verbose_name='phone')
     email = models.EmailField()
+    photo = models.ImageField(upload_to='volunteers/',blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, default='new')
+    status = models.CharField(
+        max_length=20,
+        choices=VolunteerStatusChoice.choices,
+        default=VolunteerStatusChoice.NEW
+    )
+    description = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ['name']
