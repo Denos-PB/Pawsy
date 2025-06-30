@@ -1,7 +1,3 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status, permissions
-from .models import *
 from .serializer import *
 from rest_framework import viewsets
 from rest_framework import generics
@@ -110,3 +106,12 @@ class AnimalDetailView(DetailView):
         else:
             messages.error(request, "Please fill out all required fields.")
             return self.get(request, *args, **kwargs)
+
+
+class VolunteerListView(ListView):
+    model = Volunteer
+    template_name = 'volunteer_list.html'
+    context_object_name = 'volunteers'
+
+    def get_queryset(self):
+        return Volunteer.objects.filter(status=VolunteerStatusChoice.APPROVED)

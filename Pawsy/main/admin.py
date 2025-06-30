@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 
-from .models import Animal, AnimalBreed, Color, Wool, Size, Status, Gender, AdoptionRequest
+from .models import Animal, AnimalBreed, Color, Wool, Size, Status, Gender, AdoptionRequest, Volunteer
 
 admin.site.register(AnimalBreed)
 admin.site.register(Color)
@@ -15,6 +15,10 @@ admin.site.register(Status)
 admin.site.register(Gender)
 admin.site.register(AdoptionRequest)
 
+class VolunteerForm(forms.ModelForm):
+    class Meta:
+        model = Volunteer
+        fields = '__all__'
 
 class AnimalForm(forms.ModelForm):
     class Meta:
@@ -88,3 +92,18 @@ class AnimalAdmin(admin.ModelAdmin):
     list_editable = ('name', 'age', 'sterilized', 'vaccinated')
     actions = [mark_found_home, mark_as_sterilized, mark_as_vaccinated, set_location]
 admin.site.register(Animal, AnimalAdmin)
+
+class VolunteerAdmin(admin.ModelAdmin):
+    form = VolunteerForm
+    list_per_page = 10
+    readonly_fields = ('data_arrived',)
+    date_hierarchy = 'data_arrived'
+    list_display = (
+        'id',
+        'name',
+        'photo'
+    )
+    list_display_links = ('id', 'name')
+    list_filter = ('name',)
+    search_fields = ('name',)
+    prepopulated_fields = {'slug': ('name',)}
