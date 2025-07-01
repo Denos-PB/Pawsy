@@ -12,19 +12,22 @@
 <div class="volunteer-grid">
     {% for volunteer in volunteers %}
     <div class="volunteer-card">
-        {% if volunteer.photo %}
-        <img src="{{ volunteer.photo.url }}" alt="{{ volunteer.name }}">
-        {% else %}
-        <img src="https://placehold.co/400x300?text=No+Photo" alt="No photo available">
-        {% endif %}
-        <div class="content">
-            <h3>{{ volunteer.name }}</h3>
-            <p><strong>Email:</strong> {{ volunteer.email }}</p>
-            <p><strong>Phone:</strong> {{ volunteer.phone }}</p>
-            {% if volunteer.description %}
-            <p>{{ volunteer.description }}</p>
+        <a href="{% url 'volunteer_detail' volunteer.id %}" style="text-decoration: none; color: inherit;">
+            {% if volunteer.photo %}
+            <img src="{{ volunteer.photo.url }}" alt="{{ volunteer.name }}">
+            {% else %}
+            <img src="https://placehold.co/400x300?text=No+Photo" alt="No photo available">
             {% endif %}
-        </div>
+            <div class="content">
+                <h3>{{ volunteer.name }}</h3>
+                <p><strong>Email:</strong> {{ volunteer.email }}</p>
+                <p><strong>Phone:</strong> {{ volunteer.phone }}</p>
+                {% if volunteer.description %}
+                <p>{{ volunteer.description|truncatewords:20 }}</p>
+                {% endif %}
+                <p><a href="{% url 'volunteer_detail' volunteer.id %}" class="btn" style="margin-top: 10px;">View Details</a></p>
+            </div>
+        </a>
     </div>
     {% empty %}
     <div class="card">

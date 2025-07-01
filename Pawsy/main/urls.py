@@ -12,6 +12,7 @@ urlpatterns = [
     path('animals/', views.AnimalListView.as_view(), name='animal_list'),
     path('animals/<int:pk>/', views.AnimalDetailView.as_view(), name='animal_detail'),
     path('volunteers/', views.VolunteerListView.as_view(), name='volunteer_list'),
+    path('volunteers/<int:pk>/', views.VolunteerDetailView.as_view(), name='volunteer_detail'),
 
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),

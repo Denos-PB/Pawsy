@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Adoption Request - Pawsy Animal Shelter{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Adoption Request Form</h2>
+    <p>Please fill out the form below to submit an adoption request for an animal from our shelter.</p>
+    
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <form method="post" action="">
+        {% csrf_token %}
+        
+        <div>
+            <label for="animal">Select Animal:</label>
+            <select id="animal" name="animal" required style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                <option value="">-- Select an animal --</option>
+                {% for animal in animals %}
+                <option value="{{ animal.id }}">{{ animal.name }} ({{ animal.breed.name }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div>
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+        </div>
+        
+        <div>
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+        
+        <div>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+        </div>
+        
+        <button type="submit" class="btn">Submit Adoption Request</button>
+    </form>
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'animal_list' %}" class="btn" style="background-color: #666;">View All Animals</a>
+    <a href="{% url 'home' %}" class="btn" style="background-color: #666;">Back to Home</a>
+</div>
+{% endblock %}

@@ -79,3 +79,20 @@ class VolunteerSerializer(serializers.ModelSerializer):
             'phone': {'error_messages': {'blank': 'Phone number cannot be empty'}},
             'email': {'error_messages': {'blank': 'Email cannot be empty'}},
         }
+class VolunteerRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VolunteerRequest
+        fields = '__all__'
+        read_only_fields = ('slug',)
+        extra_kwargs = {
+            'name': {'error_messages': {'blank': 'Volunteer name cannot be empty'}},
+            'phone': {'error_messages': {'blank': 'Phone number cannot be empty'}},
+            'email': {'error_messages': {'blank': 'Email cannot be empty'}},
+            'message': {'error_messages': {'blank': 'Message cannot be empty'}},
+
+        }
+class DonationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Donation
+        fields = '__all__'
+        read_only_fields = ('slug',)

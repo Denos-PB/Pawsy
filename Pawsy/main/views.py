@@ -2,11 +2,12 @@ from .serializer import *
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import mixins
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, TemplateView, FormView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 
 class AnimalView(viewsets.ModelViewSet):
     queryset = Animal.objects.all()
@@ -65,7 +66,7 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['featured_animals'] = Animal.objects.filter(status__name='Available').order_by('?')[:3]
+        context['featured_animals'] = Animal.objects.filter(status__name='L').order_by('?')[:3]
         return context
 
 
@@ -75,7 +76,7 @@ class AnimalListView(ListView):
     context_object_name = 'animals'
 
     def get_queryset(self):
-        return Animal.objects.filter(status__name='Available')
+        return Animal.objects.filter(status__name='L')
 
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -112,6 +113,15 @@ class VolunteerListView(ListView):
     model = Volunteer
     template_name = 'volunteer_list.html'
     context_object_name = 'volunteers'
+
+    def get_queryset(self):
+        return Volunteer.objects.filter(status=VolunteerStatusChoice.APPROVED)
+
+
+class VolunteerDetailView(DetailView):
+    model = Volunteer
+    template_name = 'volunteer_detail.html'
+    context_object_name = 'volunteer'
 
     def get_queryset(self):
         return Volunteer.objects.filter(status=VolunteerStatusChoice.APPROVED)

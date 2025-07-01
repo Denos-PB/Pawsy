@@ -1,11 +1,10 @@
 from django import forms
-from django.contrib import admin
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponseRedirect
-from django.contrib import messages
-
-from .models import Animal, AnimalBreed, Color, Wool, Size, Status, Gender, AdoptionRequest, Volunteer
+from django.contrib import messages,admin
+from .models import Animal, AnimalBreed, Color, Wool, Size, Status, Gender, AdoptionRequest, Volunteer, Donation, \
+    VolunteerRequest
 
 admin.site.register(AnimalBreed)
 admin.site.register(Color)
@@ -14,6 +13,16 @@ admin.site.register(Size)
 admin.site.register(Status)
 admin.site.register(Gender)
 admin.site.register(AdoptionRequest)
+
+class VolunteerRequestForm(forms.ModelForm):
+    class Meta:
+        model = VolunteerRequest
+        fields = '__all__'
+
+class DonationForm(forms.ModelForm):
+    class Meta:
+        model = Donation
+        fields = '__all__'
 
 class VolunteerForm(forms.ModelForm):
     class Meta:
@@ -93,17 +102,25 @@ class AnimalAdmin(admin.ModelAdmin):
     actions = [mark_found_home, mark_as_sterilized, mark_as_vaccinated, set_location]
 admin.site.register(Animal, AnimalAdmin)
 
+
+@admin.register(Volunteer)
 class VolunteerAdmin(admin.ModelAdmin):
     form = VolunteerForm
-    list_per_page = 10
-    readonly_fields = ('data_arrived',)
-    date_hierarchy = 'data_arrived'
-    list_display = (
-        'id',
-        'name',
-        'photo'
+    list_display = ('name', 'phone', 'email', 'status')
+    search_fields = ('name', 'phone', 'email')
+    list_filter = ('status',)
+
+    fieldsets = (
+        ('Personal Information', {
+            'fields': ('name', 'phone', 'email', 'photo')
+        }),
+        ('Additional Information', {
+            'fields': ('status', 'description')
+        }),
     )
-    list_display_links = ('id', 'name')
-    list_filter = ('name',)
-    search_fields = ('name',)
-    prepopulated_fields = {'slug': ('name',)}
+@admin.register(Donation)
+class DonationAdmin(admin.ModelAdmin):
+    form = DonationForm
+    list_display = ('amount', 'donor_name', 'donor_email', 'for_fop', 'created_at')
+    search_fields = ('donor_name', 'donor_email')
+    list_filter = ('for_fop', 'created_at')

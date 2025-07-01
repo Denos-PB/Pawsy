@@ -133,6 +133,34 @@ class Volunteer(models.Model):
         default=VolunteerStatusChoice.NEW
     )
     description = models.TextField(blank=True)
+    def __str__(self):
+        return self.name
 
     class Meta:
         ordering = ['name']
+
+class VolunteerRequest(models.Model):
+    name = models.CharField(max_length=255, verbose_name='name')
+    phone = models.CharField(max_length=30, verbose_name='phone')
+    email = models.EmailField()
+    message = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=20,
+        choices=VolunteerStatusChoice.choices,
+        default=VolunteerStatusChoice.NEW
+    )
+    def __str__(self):
+        return self.name
+    class Meta:
+        ordering = ['name']
+
+class Donation(models.Model):
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    donor_name = models.CharField(max_length=255, blank=True)
+    donor_email = models.EmailField(blank=True)
+    for_fop = models.BooleanField(default=False, verbose_name='Donate to ФОП')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Donation {self.amount} by {self.donor_name or 'Anonymous'}"

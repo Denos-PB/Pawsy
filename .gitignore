@@ -43,7 +43,7 @@ ENV/
 env/
 
 # Misc
-.env
+Pawsy/.env
 .DS_Store
 .coverage
 htmlcov/

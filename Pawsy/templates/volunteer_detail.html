@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ volunteer.name }} - Pawsy Animal Shelter{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        <div style="flex: 1; min-width: 300px;">
+            {% if volunteer.photo %}
+            <img src="{{ volunteer.photo.url }}" alt="{{ volunteer.name }}" style="width: 100%; border-radius: 5px;">
+            {% else %}
+            <img src="https://placehold.co/600x400?text=No+Photo" alt="No photo available" style="width: 100%; border-radius: 5px;">
+            {% endif %}
+        </div>
+        <div style="flex: 2; min-width: 300px;">
+            <h2>{{ volunteer.name }}</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <p><strong>Email:</strong> {{ volunteer.email }}</p>
+                <p><strong>Phone:</strong> {{ volunteer.phone }}</p>
+                <p><strong>Joined:</strong> {{ volunteer.created_at|date:"F j, Y" }}</p>
+            </div>
+            
+            <h3>About</h3>
+            <p>{{ volunteer.description|linebreaks|default:"No description available." }}</p>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'volunteer_list' %}" class="btn" style="background-color: #666;">Back to All Volunteers</a>
+</div>
+{% endblock %}
