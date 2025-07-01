@@ -21,7 +21,7 @@ Pawsy is a comprehensive web application designed to help animal shelters manage
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/pawsy.git
+   git clone https://github.com/Denos-PB/pawsy.git
    cd pawsy
    ```
 
